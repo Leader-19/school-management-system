@@ -1,0 +1,1044 @@
+/* ==========================================================================
+   School Management System - UI theme
+   --------------------------------------------------------------------------
+   Loaded after Bootstrap 5, so it only overrides what it needs to.
+   Palette is driven by CSS custom properties - change them here to retheme
+   the whole app.
+   ========================================================================== */
+
+:root {
+    --sms-primary: #4f46e5;
+    --sms-primary-dark: #4338ca;
+    --sms-primary-soft: rgba(79, 70, 229, 0.10);
+    --sms-accent: #7c3aed;
+    --sms-success: #10b981;
+    --sms-info: #0ea5e9;
+    --sms-warning: #f59e0b;
+    --sms-danger: #ef4444;
+
+    --sms-bg: #f6f7fb;
+    --sms-surface: #ffffff;
+    --sms-border: #e6e8f0;
+    --sms-text: #374151;
+    --sms-heading: #111827;
+    --sms-text-muted: #6b7280;
+
+    --sms-sidebar-w: 256px;
+    --sms-radius: 0.65rem;
+    --sms-radius-lg: 1rem;
+    --sms-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05), 0 1px 3px rgba(16, 24, 40, 0.06);
+    --sms-shadow: 0 4px 6px -2px rgba(16, 24, 40, 0.05), 0 12px 20px -6px rgba(16, 24, 40, 0.09);
+    --sms-shadow-lg: 0 24px 48px -12px rgba(30, 27, 75, 0.25);
+    --sms-transition: 0.2s ease;
+
+    --sms-font: 'Inter', 'Segoe UI', system-ui, -apple-system, Tahoma, sans-serif;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--sms-font);
+    font-size: 0.925rem;
+    background-color: var(--sms-bg);
+    color: var(--sms-text);
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    color: var(--sms-heading);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+a {
+    transition: color var(--sms-transition);
+}
+
+/* Visible focus for keyboard users only - never a mouse-click halo. */
+:focus-visible {
+    outline: 3px solid rgba(79, 70, 229, 0.45);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+}
+
+/* Skip link - hidden until keyboard-focused. */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    z-index: 2000;
+    padding: 0.6rem 1.1rem;
+    background: var(--sms-primary);
+    color: #fff;
+    border-radius: 0 0 0.5rem 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: top var(--sms-transition);
+}
+
+.skip-link:focus {
+    top: 0;
+    color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   Shims for the legacy Bootstrap 4 classes still used by some views.
+   BS5 removed these; defining them keeps every page rendering correctly.
+   -------------------------------------------------------------------------- */
+.font-weight-bold { font-weight: 700; }
+.text-xs { font-size: 0.75rem; line-height: 1.4; }
+.mr-2 { margin-right: 0.5rem; }
+.mr-3 { margin-right: 1rem; }
+.no-gutters { --bs-gutter-x: 0; }
+.no-gutters > * { padding-left: 0; padding-right: 0; }
+
+/* ==========================================================================
+   Palette (overrides Bootstrap defaults for a consistent look)
+   ========================================================================== */
+.text-primary { color: var(--sms-primary) !important; }
+.text-success { color: var(--sms-success) !important; }
+.text-info    { color: var(--sms-info) !important; }
+.text-warning { color: var(--sms-warning) !important; }
+.text-danger  { color: var(--sms-danger) !important; }
+.text-gray-300 { color: #d1d5db !important; }
+.text-gray-800 { color: var(--sms-heading) !important; }
+
+.bg-primary { background-color: var(--sms-primary) !important; }
+.bg-success { background-color: var(--sms-success) !important; }
+.bg-info    { background-color: var(--sms-info) !important; }
+
+/* --------------------------------------------------------------------------
+   Soft badges - pastel chips instead of loud solid blocks.
+   Applied to .badge.bg-* so every existing view gets the new look for free.
+   -------------------------------------------------------------------------- */
+.badge {
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    border-radius: 0.5rem;
+    padding: 0.4em 0.7em;
+}
+
+.badge.bg-primary {
+    background-color: var(--sms-primary-soft) !important;
+    color: var(--sms-primary-dark) !important;
+}
+
+.badge.bg-secondary {
+    background-color: #eef0f6 !important;
+    color: #4b5563 !important;
+}
+
+.badge.bg-success {
+    background-color: rgba(16, 185, 129, 0.14) !important;
+    color: #047857 !important;
+}
+
+.badge.bg-info {
+    background-color: rgba(14, 165, 233, 0.14) !important;
+    color: #0369a1 !important;
+}
+
+.badge.bg-warning {
+    background-color: rgba(245, 158, 11, 0.16) !important;
+    color: #b45309 !important;
+}
+
+.badge.bg-danger {
+    background-color: rgba(239, 68, 68, 0.13) !important;
+    color: #b91c1c !important;
+}
+
+/* Explicit soft tones used by ViewHelper::scoreBadge(). */
+.badge.soft-success {
+    background-color: rgba(16, 185, 129, 0.14) !important;
+    color: #047857 !important;
+}
+
+.badge.soft-warning {
+    background-color: rgba(245, 158, 11, 0.16) !important;
+    color: #b45309 !important;
+}
+
+.badge.soft-danger {
+    background-color: rgba(239, 68, 68, 0.13) !important;
+    color: #b91c1c !important;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn {
+    border-radius: 0.55rem;
+    font-weight: 600;
+    transition: background-color var(--sms-transition), border-color var(--sms-transition),
+                transform var(--sms-transition), box-shadow var(--sms-transition),
+                color var(--sms-transition);
+}
+
+.btn-sm {
+    font-size: 0.8125rem;
+    border-radius: 0.5rem;
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn-primary {
+    background-color: var(--sms-primary);
+    border-color: var(--sms-primary);
+    box-shadow: 0 4px 12px -4px rgba(79, 70, 229, 0.45);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: var(--sms-primary-dark);
+    border-color: var(--sms-primary-dark);
+    box-shadow: 0 6px 16px -4px rgba(67, 56, 202, 0.5);
+}
+
+.btn-success {
+    background-color: var(--sms-success);
+    border-color: var(--sms-success);
+}
+
+.btn-success:hover,
+.btn-success:focus {
+    background-color: #059669;
+    border-color: #059669;
+}
+
+.btn-outline-primary {
+    color: var(--sms-primary);
+    border-color: rgba(79, 70, 229, 0.45);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--sms-primary);
+    border-color: var(--sms-primary);
+}
+
+.btn-light {
+    border-color: var(--sms-border);
+}
+
+.btn-group > .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.btn-group .btn:first-child {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+/* ==========================================================================
+   Layout: sidebar + content
+   ========================================================================== */
+#sidebar {
+    width: var(--sms-sidebar-w);
+    min-width: var(--sms-sidebar-w);
+    max-width: var(--sms-sidebar-w);
+    height: 100vh;
+    height: 100dvh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1040;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(185deg, #171d3a 0%, #1b2148 55%, #232a5c 100%);
+    box-shadow: 4px 0 24px rgba(15, 18, 45, 0.25);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transition: margin-left 0.25s ease;
+}
+
+#sidebar.collapsed {
+    margin-left: calc(-1 * var(--sms-sidebar-w));
+}
+
+/* Brand */
+.sidebar-header {
+    padding: 1.35rem 1.25rem 1rem;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #fff;
+    text-decoration: none;
+}
+
+.brand-tile {
+    width: 2.6rem;
+    height: 2.6rem;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.8rem;
+    font-size: 1.1rem;
+    color: #fff;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    box-shadow: 0 8px 18px -6px rgba(99, 102, 241, 0.65);
+}
+
+.sidebar-brand h4 {
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.sidebar-brand small {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+/* Nav sections */
+#sidebar .sidebar-label {
+    display: block;
+    padding: 1rem 1.5rem 0.35rem;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35);
+}
+
+#sidebar ul.components {
+    padding: 0 0.85rem;
+}
+
+#sidebar .sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 0.62rem 0.9rem;
+    margin-bottom: 0.2rem;
+    border-radius: 0.6rem;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color var(--sms-transition), color var(--sms-transition);
+}
+
+#sidebar .sidebar-link i {
+    width: 1.35rem;
+    text-align: center;
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+
+#sidebar .sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.09);
+    color: #fff;
+}
+
+#sidebar .sidebar-link.active {
+    background: linear-gradient(90deg, rgba(99, 102, 241, 0.38), rgba(99, 102, 241, 0.12));
+    color: #fff;
+    font-weight: 600;
+    box-shadow: inset 3px 0 0 #818cf8;
+}
+
+#sidebar .sidebar-link.text-danger {
+    color: rgba(252, 165, 165, 0.85);
+}
+
+#sidebar .sidebar-link.text-danger:hover {
+    background-color: rgba(239, 68, 68, 0.18);
+    color: #fecaca;
+}
+
+/* User box pinned to the bottom of the sidebar */
+.sidebar-footer {
+    margin-top: auto;
+    padding: 1rem 1.25rem 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #fff;
+}
+
+.sidebar-footer .sidebar-user-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sidebar-footer .sidebar-user-role {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.55);
+    text-transform: capitalize;
+}
+
+/* Log out button pinned to the right of the user box */
+.sidebar-logout {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+    padding: 0.4rem 0.55rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    flex: 0 0 auto;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sidebar-logout:hover,
+.sidebar-logout:focus {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* Avatar circles */
+.avatar {
+    width: 2.35rem;
+    height: 2.35rem;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #64748b, #475569);
+    text-transform: uppercase;
+}
+
+.avatar-tone-danger  { background: linear-gradient(135deg, #f87171, #dc2626); }
+.avatar-tone-primary { background: linear-gradient(135deg, #818cf8, #4f46e5); }
+.avatar-tone-success { background: linear-gradient(135deg, #34d399, #059669); }
+
+.avatar-sm {
+    width: 2.1rem;
+    height: 2.1rem;
+    font-size: 0.78rem;
+}
+
+/* Main column */
+#content {
+    width: calc(100% - var(--sms-sidebar-w));
+    margin-left: var(--sms-sidebar-w);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.25s ease, width 0.25s ease;
+}
+
+#content.collapsed {
+    width: 100%;
+    margin-left: 0;
+}
+
+/* Off-canvas state: only applied below the lg breakpoint by app.js */
+@media (max-width: 991.98px) {
+    #sidebar {
+        margin-left: calc(-1 * var(--sms-sidebar-w));
+    }
+
+    body.sidebar-mobile-open #sidebar {
+        margin-left: 0;
+    }
+
+    #content {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+/* Mobile backdrop behind the off-canvas sidebar. */
+.sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(10, 12, 30, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 1030;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--sms-transition), visibility var(--sms-transition);
+}
+
+body.sidebar-mobile-open .sidebar-backdrop {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ==========================================================================
+   Topbar
+   ========================================================================== */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    background-color: rgba(255, 255, 255, 0.86);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--sms-border);
+}
+
+.topbar .form-control,
+.topbar .btn {
+    background-color: transparent;
+}
+
+#sidebarCollapse {
+    border: none;
+    color: var(--sms-text);
+    padding: 0.4rem 0.6rem;
+}
+
+#sidebarCollapse:hover {
+    background-color: var(--sms-primary-soft);
+    color: var(--sms-primary);
+}
+
+.user-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.3rem 0.5rem;
+    border-radius: 999px;
+    transition: background-color var(--sms-transition);
+}
+
+.user-chip:hover {
+    background-color: var(--sms-primary-soft);
+}
+
+.user-chip .user-name {
+    font-weight: 600;
+    color: var(--sms-heading);
+    font-size: 0.88rem;
+}
+
+/* ==========================================================================
+   Content area
+   ========================================================================== */
+main.app-main {
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+    animation: sms-fade-up 0.35s ease both;
+}
+
+/* Page header block used by the dashboards. */
+.page-head .page-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+}
+
+.page-head .page-subtitle {
+    color: var(--sms-text-muted);
+    font-size: 0.9rem;
+}
+
+@keyframes sms-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes sms-slide-down {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ==========================================================================
+   Cards
+   ========================================================================== */
+.card {
+    border: 1px solid var(--sms-border);
+    border-radius: var(--sms-radius-lg);
+    box-shadow: var(--sms-shadow-sm);
+}
+
+.card-header {
+    background-color: var(--sms-surface);
+    border-bottom: 1px solid var(--sms-border);
+    border-top-left-radius: var(--sms-radius-lg) !important;
+    border-top-right-radius: var(--sms-radius-lg) !important;
+    padding: 0.9rem 1.1rem;
+}
+
+.card-header h6,
+.card-header h5 {
+    letter-spacing: 0.01em;
+}
+
+.card-body {
+    padding: 1.15rem;
+}
+
+.modal .modal-content {
+    border: none;
+    border-radius: var(--sms-radius-lg);
+}
+
+/* Stat cards ---------------------------------------------------------------- */
+.stat-card {
+    transition: transform var(--sms-transition), box-shadow var(--sms-transition),
+                border-color var(--sms-transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--sms-shadow);
+    border-color: rgba(79, 70, 229, 0.35);
+}
+
+.stat-icon {
+    width: 3.1rem;
+    height: 3.1rem;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.9rem;
+    font-size: 1.2rem;
+    color: #fff;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    box-shadow: 0 10px 18px -8px rgba(79, 70, 229, 0.65);
+}
+
+.stat-icon.tone-success {
+    background: linear-gradient(135deg, #34d399, #059669);
+    box-shadow: 0 10px 18px -8px rgba(5, 150, 105, 0.6);
+}
+
+.stat-icon.tone-info {
+    background: linear-gradient(135deg, #38bdf8, #0284c7);
+    box-shadow: 0 10px 18px -8px rgba(2, 132, 199, 0.6);
+}
+
+.stat-icon.tone-warning {
+    background: linear-gradient(135deg, #fbbf24, #d97706);
+    box-shadow: 0 10px 18px -8px rgba(217, 119, 6, 0.6);
+}
+
+.stat-icon.tone-danger {
+    background: linear-gradient(135deg, #f87171, #dc2626);
+    box-shadow: 0 10px 18px -8px rgba(220, 38, 38, 0.6);
+}
+
+.stat-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--sms-text-muted);
+    margin-bottom: 0.15rem;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--sms-heading);
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+}
+
+/* Legacy accent style kept for pages that still use border-left-* cards. */
+.border-left-primary { border-left: 0.25rem solid var(--sms-primary) !important; }
+.border-left-success { border-left: 0.25rem solid var(--sms-success) !important; }
+.border-left-info    { border-left: 0.25rem solid var(--sms-info) !important; }
+.border-left-warning { border-left: 0.25rem solid var(--sms-warning) !important; }
+.border-left-danger  { border-left: 0.25rem solid var(--sms-danger) !important; }
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+.table > :not(caption) > * > * {
+    padding: 0.8rem 0.75rem;
+    border-bottom-color: var(--sms-border);
+}
+
+.table thead th {
+    background-color: #f8f9fd;
+    font-weight: 700;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--sms-text-muted);
+    white-space: nowrap;
+    border-bottom: 1px solid var(--sms-border);
+}
+
+.table-hover tbody tr {
+    transition: background-color var(--sms-transition);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(79, 70, 229, 0.045);
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+.form-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--sms-heading);
+    margin-bottom: 0.35rem;
+}
+
+.form-control,
+.form-select {
+    border-color: #d5d9e6;
+    border-radius: 0.55rem;
+    font-size: 0.9rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--sms-primary);
+    box-shadow: 0 0 0 0.22rem rgba(79, 70, 229, 0.14);
+}
+
+.form-text {
+    font-size: 0.8rem;
+    color: var(--sms-text-muted);
+}
+
+.input-group-text {
+    border-radius: 0.55rem;
+    color: var(--sms-text-muted);
+}
+
+/* Required asterisk in the label, without a stray leading space. */
+label > .text-danger:first-child {
+    margin-left: 0.15rem;
+}
+
+/* ==========================================================================
+   Flash messages
+   -------------------------------------------------------------------------- 
+   The alert classes are applied by the layout; the left rule gives them a
+   consistent accent without changing Bootstrap's own colours.
+   ========================================================================== */
+.flash-message {
+    border: none;
+    border-left: 4px solid transparent;
+    border-radius: var(--sms-radius);
+    box-shadow: var(--sms-shadow-sm);
+    animation: sms-slide-down 0.35s ease both;
+}
+
+.flash-message.alert-success { border-left-color: var(--sms-success); }
+.flash-message.alert-danger  { border-left-color: var(--sms-danger); }
+.flash-message.alert-warning { border-left-color: var(--sms-warning); }
+.flash-message.alert-info    { border-left-color: var(--sms-info); }
+
+/* ==========================================================================
+   Empty states
+   ========================================================================== */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.empty-state-icon {
+    width: 4.2rem;
+    height: 4.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    color: var(--sms-primary);
+    background: var(--sms-primary-soft);
+    margin-bottom: 1rem;
+}
+
+.empty-state-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--sms-heading);
+    margin-bottom: 0.3rem;
+}
+
+.empty-state-text {
+    font-size: 0.85rem;
+    color: var(--sms-text-muted);
+    margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Login page
+   ========================================================================== */
+.login-page {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background:
+        radial-gradient(900px 480px at 8% -8%, rgba(99, 102, 241, 0.16) 0%, transparent 55%),
+        radial-gradient(800px 420px at 108% 108%, rgba(139, 92, 246, 0.14) 0%, transparent 55%),
+        var(--sms-bg);
+}
+
+.login-shell {
+    display: flex;
+    width: 880px;
+    max-width: 100%;
+    border-radius: 1.4rem;
+    overflow: hidden;
+    background: var(--sms-surface);
+    box-shadow: var(--sms-shadow-lg);
+    animation: sms-fade-up 0.4s ease both;
+}
+
+.login-aside {
+    flex: 0 0 42%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2.75rem;
+    color: #fff;
+    background: linear-gradient(160deg, #4f46e5 0%, #6d28d9 55%, #7c3aed 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.login-aside::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    right: -120px;
+    bottom: -120px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.login-aside::before {
+    content: '';
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    right: 40px;
+    bottom: 90px;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.login-aside > * {
+    position: relative;
+    z-index: 1;
+}
+
+.login-aside .login-aside-title {
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+}
+
+.login-aside .login-aside-text {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.9rem;
+}
+
+.login-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.875rem;
+}
+
+.login-feature i {
+    margin-top: 0.15rem;
+    color: #c4b5fd;
+}
+
+.login-main {
+    flex: 1;
+    padding: 2.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-main .login-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+}
+
+@media (max-width: 767.98px) {
+    .login-aside {
+        display: none;
+    }
+
+    .login-main {
+        padding: 2rem 1.5rem;
+    }
+}
+
+/* ==========================================================================
+   Misc
+   ========================================================================== */
+.min-width-0 { min-width: 0; }
+
+/* Dashboard quick links / getting-started rows. */
+.quick-link {
+    color: var(--sms-heading);
+    transition: background-color var(--sms-transition), border-color var(--sms-transition),
+                transform var(--sms-transition);
+}
+
+.quick-link:hover {
+    background-color: var(--sms-primary-soft);
+    border-color: rgba(79, 70, 229, 0.4);
+    transform: translateY(-2px);
+}
+
+.getting-started-item {
+    border-radius: var(--sms-radius);
+    padding: 0.35rem 0.5rem;
+    transition: background-color var(--sms-transition);
+}
+
+.getting-started-item:hover {
+    background-color: var(--sms-primary-soft);
+}
+
+.display-1 {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(120deg, var(--sms-primary), var(--sms-accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Long emails / names must wrap instead of stretching the table. */
+.table td,
+.text-truncate-cell {
+    overflow-wrap: anywhere;
+}
+
+.text-wrap {
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+/* Slim, theme-matched scrollbars (WebKit + Firefox). */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100, 116, 139, 0.4) transparent;
+}
+
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: rgba(100, 116, 139, 0.35);
+    border-radius: 8px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 116, 139, 0.55);
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* ==========================================================================
+   Print
+   ========================================================================== */
+@media print {
+    #sidebar,
+    .sidebar-backdrop,
+    .topbar,
+    .btn,
+    .form-control,
+    .form-select {
+        display: none !important;
+    }
+
+    #content {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 575.98px) {
+    .card-body {
+        padding: 1rem;
+    }
+
+    /* Let long buttons wrap instead of overflowing on small phones. */
+    .text-end .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+        font-size: 1.3rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
