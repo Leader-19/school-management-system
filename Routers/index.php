@@ -20,6 +20,8 @@
  *     CsrfMiddleware::class                          - token check on POST
  */
 
+// return router end point
+
 return [
 
     // ------------------------------------------------------------------
