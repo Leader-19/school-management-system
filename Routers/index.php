@@ -29,6 +29,7 @@ return [
     // ------------------------------------------------------------------
     ['GET', '/', 'DashboardController', 'index', [AuthMiddleware::class]],
     ['GET', '/dashboard', 'DashboardController', 'index', [AuthMiddleware::class]],
+    ['GET', '/database/export', 'DatabaseController', 'export', [AuthMiddleware::class, [PermissionMiddleware::class, ['manage_users']]]],
 
     // ------------------------------------------------------------------
     // Authentication

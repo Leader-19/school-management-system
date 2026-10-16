@@ -10,6 +10,24 @@
     </div>
 </div>
 
+<?php if (Auth::hasPermission('manage_users')): ?>
+<div class="card shadow-sm border-0 mt-4">
+    <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-3 p-4">
+        <div class="d-flex align-items-start gap-3">
+            <span class="stat-icon tone-info"><i class="fa-solid fa-database"></i></span>
+            <div>
+                <h6 class="fw-bold mb-1">Share a database copy with your team</h6>
+                <p class="text-muted small mb-0">Download a MySQL .sql snapshot with the current tables and records. Import it into an empty database before connecting the app.</p>
+                <p class="text-warning-emphasis small mb-0 mt-1"><i class="fa-solid fa-lock me-1"></i>The file contains student and staff personal data and password hashes. Share it securely.</p>
+            </div>
+        </div>
+        <a href="<?= BASE_URL ?>/index.php?url=database%2Fexport" class="btn btn-outline-primary flex-shrink-0">
+            <i class="fa-solid fa-download me-1"></i> Export database (.sql)
+        </a>
+    </div>
+</div>
+<?php endif; ?>
+
 <div class="row g-3 mb-4">
     <div class="col-xl-3 col-md-6">
         <div class="card stat-card h-100">
