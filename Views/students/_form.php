@@ -12,28 +12,33 @@ if (!function_exists('render_student_fields')) {
         $value = htmlspecialchars((string) ($form[$name] ?? ''));
         $required = in_array($name, ['username', 'email', 'first_name', 'last_name', 'student_code'], true) ? ' required' : '';
         ?>
-        <div class="col-md-4 mb-3">
-            <label for="<?= $id ?>" class="form-label fw-semibold"><?= htmlspecialchars($label) ?><?= $required ?><span class="text-danger"> *</span></label>
+        <div class="col-md-6 col-xl-4 mb-3">
+            <label for="<?= $id ?>" class="form-label fw-semibold"><?= htmlspecialchars($label) ?><?php if ($required !== ''): ?> <span class="text-danger" aria-hidden="true">*</span><span class="visually-hidden">(required)</span><?php endif; ?></label>
             <input type="<?= htmlspecialchars($type) ?>"
-                   class="form-control<?= $name === 'email' ? '' : '' ?>"
+                   class="form-control"
                    id="<?= $id ?>"
                    name="<?= htmlspecialchars($name) ?>"
                    value="<?= $value ?>"
                    placeholder="<?= htmlspecialchars($placeholder) ?>"
                    <?= $required ?>
+                   <?= $name === 'username' ? 'autocomplete="username" maxlength="50"' : '' ?>
+                   <?= $name === 'email' ? 'autocomplete="email"' : '' ?>
                    <?= $extra ?>>
         </div>
         <?php
     }
 }
 ?>
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="h3 mb-0 text-gray-800"><?= $pageTitle ?? 'Student' ?></h2>
-    <a href="<?= BASE_URL ?>/student" class="btn btn-sm btn-secondary shadow-sm"><i class="fa-solid fa-arrow-left me-1"></i> Back to List</a>
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div>
+        <h2 class="h3 mb-1 text-gray-800"><?= $pageTitle ?? 'Student' ?></h2>
+        <p class="text-muted small mb-0">Fields marked <span class="text-danger">*</span> are required.</p>
+    </div>
+    <a href="<?= BASE_URL ?>/student" class="btn btn-outline-secondary"><i class="fa-solid fa-arrow-left me-1"></i> Back to students</a>
 </div>
 
 <?php if (!empty($validationErrors)): ?>
-    <div class="alert alert-danger shadow-sm">
+    <div class="alert alert-danger shadow-sm" role="alert" tabindex="-1">
         <i class="fa-solid fa-triangle-exclamation me-1"></i> Please fix the following:
         <ul class="mb-0 mt-2">
             <?php foreach ($validationErrors as $message): ?>
@@ -43,7 +48,7 @@ if (!function_exists('render_student_fields')) {
     </div>
 <?php endif; ?>
 
-<form action="<?= htmlspecialchars($formAction) ?>" method="POST" novalidate>
+<form action="<?= htmlspecialchars($formAction) ?>" method="POST" class="student-form" novalidate>
     <?= ViewHelper::csrfField() ?>
     <div class="card shadow-sm border-0 mb-4">
         <div class="card-header bg-white py-3">
@@ -54,16 +59,16 @@ if (!function_exists('render_student_fields')) {
                 <?php render_student_field('username', 'Username', $data, 'text', '', 'e.g. john.doe'); ?>
                 <?php render_student_field('email', 'Email', $data, 'email', '', 'name@school.local'); ?>
                 <?php
-                $passwordExtra = ($showPasswordHint ?? false)
-                    ? 'placeholder="Leave empty to keep current" autocomplete="new-password"'
-                    : 'placeholder="Min. 6 characters" autocomplete="new-password"';
-                render_student_field('password', 'Password', $data, 'password', $passwordExtra);
+                $passwordExtra = 'autocomplete="new-password" minlength="6"';
+                render_student_field('password', 'Password', $data, 'password', $passwordExtra,
+                    ($showPasswordHint ?? false) ? 'Leave empty to keep current' : 'At least 6 characters');
                 ?>
             </div>
+            <div class="form-text mt-n2 mb-3"><i class="fa-solid fa-lock me-1"></i><?= ($showPasswordHint ?? false) ? 'Leave password empty to keep the current password.' : 'Use at least 6 characters. The password is stored securely.' ?></div>
 
             <?php if ($showAccountStatus ?? false): ?>
                 <div class="row">
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-6 col-xl-4 mb-3">
                         <label for="field_status" class="form-label fw-semibold">Account Status</label>
                         <select class="form-select" id="field_status" name="status">
                             <option value="active" <?= (($data['status'] ?? '') === 'active') ? 'selected' : '' ?>>Active</option>
@@ -87,7 +92,7 @@ if (!function_exists('render_student_fields')) {
                 <?php render_student_field('last_name', 'Last Name', $data); ?>
                 <?php render_student_field('date_of_birth', 'Date of Birth', $data, 'date'); ?>
 
-                <div class="col-md-4 mb-3">
+                <div class="col-md-6 col-xl-4 mb-3">
                     <label for="field_gender" class="form-label fw-semibold">Gender</label>
                     <select class="form-select" id="field_gender" name="gender">
                         <?php
@@ -104,7 +109,7 @@ if (!function_exists('render_student_fields')) {
 
                 <?php render_student_field('phone', 'Phone', $data, 'tel', '', 'Optional'); ?>
 
-                <div class="col-md-12 mb-3">
+                <div class="col-12 mb-3">
                     <label for="field_address" class="form-label fw-semibold">Address</label>
                     <textarea class="form-control" id="field_address" name="address" rows="2"><?= htmlspecialchars((string) ($data['address'] ?? '')) ?></textarea>
                 </div>
@@ -134,8 +139,8 @@ if (!function_exists('render_student_fields')) {
         </div>
     </div>
 
-    <div class="text-end border-top pt-3">
-        <a href="<?= BASE_URL ?>/student" class="btn btn-light me-2">Cancel</a>
+    <div class="d-flex justify-content-end gap-2 border-top pt-3 pb-2">
+        <a href="<?= BASE_URL ?>/student" class="btn btn-light border">Cancel</a>
         <button type="submit" class="btn btn-primary px-4 shadow-sm">
             <i class="fa-solid fa-save me-1"></i> <?= htmlspecialchars($submitLabel ?? 'Save Student') ?>
         </button>

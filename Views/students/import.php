@@ -10,20 +10,20 @@ $pageTitle = 'Import Students';
 $summary   = $summary ?? null;
 $classes   = $classes ?? [];
 ?>
-<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
     <div>
-        <h2 class="h3 mb-0 text-gray-800">Import Students</h2>
-        <p class="text-muted small mb-0 mt-1">Create many students at once from an Excel (.xlsx) or CSV file.</p>
+        <h2 class="h3 mb-1 text-gray-800">Import students</h2>
+        <p class="text-muted small mb-0">Add a group of students from a spreadsheet and review any rows that need attention.</p>
     </div>
-    <a href="<?= BASE_URL ?>/student" class="btn btn-sm btn-light border">
-        <i class="fa-solid fa-arrow-left me-1"></i> Back to Students
+    <a href="<?= BASE_URL ?>/student" class="btn btn-outline-secondary">
+        <i class="fa-solid fa-arrow-left me-1"></i> Students
     </a>
 </div>
 
 <?php if ($summary !== null): ?>
-<div class="card shadow-sm mb-4">
-    <div class="card-header py-3 bg-white">
-        <h6 class="m-0 font-weight-bold text-primary">
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header py-3 px-4 bg-white">
+        <h6 class="m-0 fw-bold text-primary">
             <i class="fa-solid fa-clipboard-check me-2"></i>Import Result
         </h6>
     </div>
@@ -103,9 +103,9 @@ $classes   = $classes ?? [];
 
 <div class="row g-4">
     <div class="col-lg-5">
-        <div class="card shadow-sm mb-4">
-            <div class="card-header py-3 bg-white">
-                <h6 class="m-0 font-weight-bold text-primary">
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header py-3 px-4 bg-white">
+                <h6 class="m-0 fw-bold text-primary">
                     <i class="fa-solid fa-file-excel me-2"></i>Upload Spreadsheet
                 </h6>
             </div>
@@ -136,9 +136,9 @@ $classes   = $classes ?? [];
     </div>
 
     <div class="col-lg-7">
-        <div class="card shadow-sm mb-4">
-            <div class="card-header py-3 bg-white">
-                <h6 class="m-0 font-weight-bold text-primary">
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header py-3 px-4 bg-white">
+                <h6 class="m-0 fw-bold text-primary">
                     <i class="fa-solid fa-table-list me-2"></i>Required Columns (row 1 of the file)
                 </h6>
             </div>

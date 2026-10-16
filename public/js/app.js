@@ -114,6 +114,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 6000);
     });
 
+    document.querySelectorAll('.flash-toast').forEach(function (toast) {
+        if (!window.bootstrap || !bootstrap.Toast) return;
+        bootstrap.Toast.getOrCreateInstance(toast).show();
+    });
+
     // -----------------------------------------------------------------
     // 4. Bootstrap client-side validation
     // -----------------------------------------------------------------

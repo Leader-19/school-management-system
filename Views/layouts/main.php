@@ -52,6 +52,7 @@ $smsInitials = (static function (string $name): string {
 $userRole = (string) ($currentUser['role_name'] ?? '');
 $roleTone = ['admin' => 'danger', 'teacher' => 'primary', 'student' => 'success'][$userRole] ?? 'primary';
 $roleLabel = $userRole !== '' ? ucfirst($userRole) : 'User';
+$successMessage = Session::getFlash('success');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -149,37 +150,36 @@ $roleLabel = $userRole !== '' ? ucfirst($userRole) : 'User';
                         <i class="fa-solid fa-bars"></i>
                     </button>
 
-                    <div class="ms-auto d-flex align-items-center">
-                        <span class="user-chip">
-                            <span class="avatar avatar-sm avatar-tone-<?= htmlspecialchars($roleTone) ?>"
-                                  aria-hidden="true"><?= htmlspecialchars($smsInitials) ?></span>
-                            <span class="user-name d-none d-sm-inline">
-                                <?= htmlspecialchars((string) ($currentUser['username'] ?? 'User')) ?>
+                    <div class="ms-auto dropdown">
+                        <button class="btn btn-light d-flex align-items-center gap-2 rounded-pill px-2 px-sm-3"
+                                type="button" id="profileMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="avatar avatar-sm avatar-tone-<?= htmlspecialchars($roleTone) ?>" aria-hidden="true"><?= htmlspecialchars($smsInitials) ?></span>
+                            <span class="text-start d-none d-sm-block">
+                                <span class="user-name d-block lh-1"><?= htmlspecialchars((string) ($currentUser['username'] ?? 'User')) ?></span>
+                                <span class="small text-muted"><?= htmlspecialchars($roleLabel) ?></span>
                             </span>
-                            <span class="badge bg-<?= htmlspecialchars($roleTone) ?> rounded-pill px-2 py-1">
-                                <?= htmlspecialchars($roleLabel) ?>
-                            </span>
-                        </span>
-                        <a href="<?= BASE_URL ?>/logout" class="btn btn-sm btn-light ms-2"
-                           title="Log out">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                            <span class="d-none d-md-inline ms-1">Log out</span>
-                        </a>
+                            <i class="fa-solid fa-chevron-down small text-muted ms-1" aria-hidden="true"></i>
+                            <span class="visually-hidden">Open profile menu</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end shadow border-0 p-2 mt-2" aria-labelledby="profileMenuButton" style="min-width: 240px">
+                            <div class="px-3 py-2 border-bottom mb-2">
+                                <div class="fw-semibold text-truncate"><?= htmlspecialchars((string) ($currentUser['username'] ?? 'User')) ?></div>
+                                <div class="small text-muted text-truncate"><?= htmlspecialchars((string) ($currentUser['email'] ?? '')) ?></div>
+                            </div>
+                            <a class="dropdown-item rounded py-2" href="<?= BASE_URL ?>/profile">
+                                <i class="fa-regular fa-user me-2 text-muted"></i> My profile
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item rounded py-2 text-danger" href="<?= BASE_URL ?>/logout">
+                                <i class="fa-solid fa-right-from-bracket me-2"></i> Log out
+                            </a>
+                        </div>
                     </div>
                 </div>
             </nav>
 
             <main class="container-fluid px-4 pb-4 flex-grow-1 app-main" id="mainContent">
-                <?php
-                // The .flash-message class is what app.js watches for to
-                // auto-dismiss alerts, and what style.css accents.
-                if ($success = Session::getFlash('success')): ?>
-                    <div class="alert alert-success alert-dismissible fade show flash-message" role="alert">
-                        <i class="fa-solid fa-circle-check me-1"></i> <?= htmlspecialchars($success) ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                <?php endif; ?>
-
+                <?php // Keep errors inline so they remain visible beside the page content. ?>
                 <?php if ($error = Session::getFlash('error')): ?>
                     <div class="alert alert-danger alert-dismissible fade show flash-message" role="alert">
                         <i class="fa-solid fa-triangle-exclamation me-1"></i> <?= htmlspecialchars($error) ?>
@@ -203,17 +203,19 @@ $roleLabel = $userRole !== '' ? ucfirst($userRole) : 'User';
                     </div>
                 <?php endif; ?>
 
-                <?php if ($success = Session::getFlash('success')): ?>
-                    <div class="position-fixed top-0 start-50 translate-middle-x p-3 w-100 d-flex justify-content-center" style="z-index: 1080; max-width: 480px;">
-                        <div class="alert alert-success alert-dismissible fade show flash-message shadow-sm w-100" role="alert">
-                            <i class="fa-solid fa-circle-check me-1"></i> <?= htmlspecialchars($success) ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    </div>
-                <?php endif; ?>
-
                 <?= $viewContent ?>
             </main>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($successMessage): ?>
+        <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1090;">
+            <div class="toast align-items-center text-bg-success border-0 show flash-toast" role="status" aria-live="polite" aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+                <div class="d-flex">
+                    <div class="toast-body"><i class="fa-solid fa-circle-check me-2" aria-hidden="true"></i><?= htmlspecialchars($successMessage) ?></div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Dismiss message"></button>
+                </div>
+            </div>
         </div>
     <?php endif; ?>
 

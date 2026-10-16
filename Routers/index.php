@@ -43,6 +43,10 @@ return [
     ['POST', '/auth/login', 'AuthController', 'login'],
     ['GET', '/auth/logout', 'AuthController', 'logout'],
 
+    // Signed-in user's own account profile
+    ['GET', '/profile', 'ProfileController', 'index', [AuthMiddleware::class]],
+    ['POST', '/profile', 'ProfileController', 'update', [AuthMiddleware::class, CsrfMiddleware::class]],
+
     // ------------------------------------------------------------------
     // Students
     // ------------------------------------------------------------------
@@ -70,6 +74,9 @@ return [
     ['GET', '/teacher', 'TeacherController', 'index', [AuthMiddleware::class, [PermissionMiddleware::class, ['manage_users']]]],
     ['GET', '/teacher/create', 'TeacherController', 'create', [AuthMiddleware::class, [PermissionMiddleware::class, ['manage_users']]]],
     ['POST', '/teacher/create', 'TeacherController', 'create', [AuthMiddleware::class, [PermissionMiddleware::class, ['manage_users']], CsrfMiddleware::class]],
+    ['GET', '/teacher/import', 'TeacherController', 'import', [AuthMiddleware::class, [PermissionMiddleware::class, ['manage_users']]]],
+    ['POST', '/teacher/import', 'TeacherController', 'import', [AuthMiddleware::class, [PermissionMiddleware::class, ['manage_users']], CsrfMiddleware::class]],
+    ['GET', '/teacher/import-template', 'TeacherController', 'template', [AuthMiddleware::class, [PermissionMiddleware::class, ['manage_users']]]],
     ['GET', '/teacher/edit/{id}', 'TeacherController', 'edit', [AuthMiddleware::class, [PermissionMiddleware::class, ['manage_users']]]],
     ['POST', '/teacher/edit/{id}', 'TeacherController', 'edit', [AuthMiddleware::class, [PermissionMiddleware::class, ['manage_users']], CsrfMiddleware::class]],
     ['POST', '/teacher/delete/{id}', 'TeacherController', 'delete', [AuthMiddleware::class, [PermissionMiddleware::class, ['manage_users']], CsrfMiddleware::class]],

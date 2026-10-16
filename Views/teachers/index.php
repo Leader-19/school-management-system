@@ -12,24 +12,39 @@ $pageTitle = 'Teachers';
             <?= !empty($keyword) ? 'matching your search' : 'on staff' ?>
         </p>
     </div>
-    <a href="<?= BASE_URL ?>/teacher/create" class="btn btn-sm btn-primary shadow-sm">
-        <i class="fa-solid fa-user-plus me-1"></i> Add Teacher
-    </a>
+    <div class="d-flex gap-2">
+        <a href="<?= BASE_URL ?>/teacher/import" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-file-import me-1"></i> Import Teachers</a>
+        <a href="<?= BASE_URL ?>/teacher/create" class="btn btn-sm btn-primary shadow-sm"><i class="fa-solid fa-user-plus me-1"></i> Add Teacher</a>
+    </div>
 </div>
 
 <div class="card shadow-sm mb-4">
     <div class="card-header py-3 bg-white d-flex justify-content-between align-items-center flex-wrap gap-2">
         <h6 class="m-0 font-weight-bold text-primary"><i class="fa-solid fa-chalkboard-user me-2"></i>Teacher List</h6>
-        <form action="<?= BASE_URL ?>/teacher" method="GET" class="d-flex gap-2">
-            <div class="input-group input-group-sm" style="max-width: 240px;">
+        <form action="<?= BASE_URL ?>/teacher" method="GET" class="row g-2 align-items-end w-100">
+          <div class="col-md">
+            <label for="teacherSearch" class="form-label small fw-semibold mb-1">Search teachers</label>
+            <div class="input-group input-group-sm">
                 <span class="input-group-text bg-light"><i class="fa-solid fa-search"></i></span>
-                <input type="text" class="form-control" name="q" value="<?= htmlspecialchars($keyword ?? '') ?>"
+                <input type="text" class="form-control" id="teacherSearch" name="q" value="<?= htmlspecialchars($keyword ?? '') ?>"
                        placeholder="Search username or email..." aria-label="Search teachers">
             </div>
-            <button type="submit" class="btn btn-sm btn-primary">Search</button>
+            <div class="form-text">Searches all teacher records.</div>
+          </div>
+          <div class="col-sm-auto">
+            <label for="teacherPageSize" class="form-label small fw-semibold mb-1">Rows per page</label>
+            <select class="form-select form-select-sm" id="teacherPageSize" name="per_page" aria-label="Rows per page" onchange="this.form.submit()">
+                <?php foreach ([10, 15, 25, 50, 100] as $size): ?>
+                    <option value="<?= $size ?>" <?= (int) ($pagination['per_page'] ?? 15) === $size ? 'selected' : '' ?>><?= $size ?></option>
+                <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="col-sm-auto d-flex gap-2">
+            <button type="submit" class="btn btn-sm btn-primary"><i class="fa-solid fa-magnifying-glass me-1"></i> Search</button>
             <?php if (!empty($keyword)): ?>
                 <a href="<?= BASE_URL ?>/teacher" class="btn btn-sm btn-light border">Clear</a>
             <?php endif; ?>
+          </div>
         </form>
     </div>
     <div class="card-body p-0">
@@ -103,7 +118,9 @@ $pageTitle = 'Teachers';
 
         <?php
         $paginationBaseUrl = BASE_URL . '/teacher';
-        $paginationQuery   = !empty($keyword) ? ['q' => $keyword] : [];
+        $paginationQuery   = [];
+        if (!empty($keyword)) { $paginationQuery['q'] = $keyword; }
+        if ((int) ($pagination['per_page'] ?? 15) !== 15) { $paginationQuery['per_page'] = (int) $pagination['per_page']; }
         $paginationNoun    = 'teachers';
         require BASE_PATH . '/Views/partials/pagination.php';
         ?>

@@ -28,6 +28,7 @@ class AuthController extends Controller {
         $password = $_POST['password'] ?? '';
 
         if ($this->authService->login($login, $password)) {
+            Session::setFlash('success', 'Login successful. Welcome back!');
             $this->redirect('dashboard');
         }
 

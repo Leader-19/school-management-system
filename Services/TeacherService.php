@@ -19,6 +19,34 @@ class TeacherService {
         return $this->userModel->paginateTeachers($page, $perPage, $keyword);
     }
 
+    /** Import teacher accounts independently so one invalid row does not block the rest. */
+    public function importTeachers(array $rows) {
+        if (count($rows) > 1000) {
+            throw new RuntimeException('Please import at most 1000 teachers at a time.');
+        }
+        $summary = ['total' => count($rows), 'created' => 0, 'failed' => 0, 'errors' => [], 'errors_omitted' => 0];
+        foreach (array_values($rows) as $index => $row) {
+            $data = [
+                'username' => trim((string) ($row['username'] ?? '')),
+                'email' => trim((string) ($row['email'] ?? '')),
+                'password' => (string) ($row['password'] ?? ''),
+                'status' => strtolower(trim((string) ($row['status'] ?? 'active')))
+            ];
+            try {
+                $this->createTeacher($data);
+                $summary['created']++;
+            } catch (Throwable $e) {
+                $summary['failed']++;
+                if (count($summary['errors']) < 100) {
+                    $summary['errors'][] = ['row' => $index + 2, 'username' => $data['username'] ?: '(blank)', 'message' => $e->getMessage()];
+                } else {
+                    $summary['errors_omitted']++;
+                }
+            }
+        }
+        return $summary;
+    }
+
     public function getTeacherById($id) {
         return $this->userModel->findWithRole($id);
     }

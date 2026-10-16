@@ -161,6 +161,9 @@ class StudentController extends Controller {
             try {
                 $rows    = $this->readImportFile();
                 $summary = $this->studentService->importStudents($rows);
+                if ((int) ($summary['created'] ?? 0) > 0) {
+                    Session::setFlash('success', (int) $summary['created'] . ' student account(s) created successfully.');
+                }
 
                 $this->view('students/import', [
                     'classes' => $classes,
