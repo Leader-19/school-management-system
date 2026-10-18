@@ -78,7 +78,6 @@
                 <div style="height: 290px; position: relative;">
                     <canvas id="schoolOverviewChart"></canvas>
                 </div>
-
             </div>
         </div>
     </div>
@@ -87,7 +86,13 @@
     <div class="col-lg-5">
         <div class="card border-0 shadow-sm rounded-4 h-100 bg-white">
             <div class="card-header bg-transparent border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 fw-bold text-primary"><i class="fa-solid fa-venus-mars me-2"></i>Student Gender (សិស្សប្រុស-ស្រី)</h6>
+                <h6 class="m-0 fw-bold text-primary">
+                    <span class="me-2">
+                        <i class="fa-solid fa-person" style="color: #38bdf8;" title="Boy"></i>
+                        <i class="fa-solid fa-person-dress ms-1" style="color: #fbbf24;" title="Girl"></i>
+                    </span>
+                    Student Gender (សិស្សប្រុស-ស្រី)
+                </h6>
                 <span class="badge bg-info-subtle text-info rounded-pill px-3 py-1 small">Ratio</span>
             </div>
             <div class="card-body px-4 pb-4 d-flex flex-column align-items-center justify-content-center">
@@ -95,10 +100,11 @@
                 <div style="height: 220px; width: 100%; position: relative;" class="d-flex align-items-center justify-content-center">
                     <canvas id="genderPieChart"></canvas>
 
+                    <!-- Center Person & Dress Silhouettes Overlay -->
                     <div class="position-absolute text-center d-flex flex-column align-items-center justify-content-center pe-none" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
                         <div class="d-flex align-items-center gap-2 mb-1">
-                            <i class="fa-solid fa-user-large fs-2" style="color: #38bdf8;"></i>
-                            <i class="fa-solid fa-user-large fs-2" style="color: #fbbf24;"></i>
+                            <i class="fa-solid fa-person fs-4" style="color: #38bdf8;" title="Male"></i>
+                            <i class="fa-solid fa-person-dress fs-4" style="color: #fbbf24;" title="Female"></i>
                         </div>
                         <div class="fw-extrabold fs-2 text-dark lh-1" style="font-weight: 800; letter-spacing: -0.5px;"><?= (int)($totalStudents ?? 0) ?></div>
                     </div>
@@ -222,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const ctxOverview = document.getElementById('schoolOverviewChart').getContext('2d');
     new Chart(ctxOverview, {
-        type: 'bar', // ប្រើប្រាស់ Bar Chart សម្រាប់សិស្ស និង Line Chart សម្រាប់វត្តមាន
+        type: 'bar',
         data: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             datasets: [
@@ -263,7 +269,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     position: 'right',
                     min: 0,
                     max: 100,
-                    grid: { drawOnChartArea: false }, // បិទបន្ទាត់ក្រឡាចត្រង្គជាន់គ្នា
+                    grid: { drawOnChartArea: false },
                     ticks: {
                         callback: function(value) { return value + '%'; }
                     }
