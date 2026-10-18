@@ -128,7 +128,7 @@ $successMessage = Session::getFlash('success');
 
             <div class="sidebar-footer">
                 <span class="avatar avatar-tone-<?= htmlspecialchars($roleTone) ?>"
-                      aria-hidden="true"><?= htmlspecialchars($smsInitials) ?></span>
+                    aria-hidden="true"><?= htmlspecialchars($smsInitials) ?></span>
                 <div class="min-width-0">
                     <div class="sidebar-user-name"><?= htmlspecialchars((string) ($currentUser['username'] ?? 'User')) ?></div>
                     <div class="sidebar-user-role"><?= htmlspecialchars($roleLabel) ?></div>
@@ -143,36 +143,72 @@ $successMessage = Session::getFlash('success');
         <!-- Main Content -->
         <div id="content">
             <!-- Top Navbar -->
-            <nav class="navbar navbar-expand-lg topbar mb-4">
-                <div class="container-fluid">
-                    <button type="button" id="sidebarCollapse" class="btn btn-light"
-                            aria-label="Toggle sidebar" aria-expanded="true">
-                        <i class="fa-solid fa-bars"></i>
+            <nav class="navbar navbar-expand-lg topbar mb-4 px-3 py-2 shadow-sm bg-white">
+                <div class="container-fluid px-0">
+                    <!-- Sidebar Collapse Toggle -->
+                    <button type="button" id="sidebarCollapse" class="btn btn-light rounded-circle p-2 d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px;" aria-label="Toggle sidebar" aria-expanded="true">
+                        <i class="fa-solid fa-bars text-secondary"></i>
                     </button>
 
-                    <div class="ms-auto dropdown">
-                        <button class="btn btn-light d-flex align-items-center gap-2 rounded-pill px-2 px-sm-3"
-                                type="button" id="profileMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="avatar avatar-sm avatar-tone-<?= htmlspecialchars($roleTone) ?>" aria-hidden="true"><?= htmlspecialchars($smsInitials) ?></span>
-                            <span class="text-start d-none d-sm-block">
-                                <span class="user-name d-block lh-1"><?= htmlspecialchars((string) ($currentUser['username'] ?? 'User')) ?></span>
-                                <span class="small text-muted"><?= htmlspecialchars($roleLabel) ?></span>
-                            </span>
-                            <i class="fa-solid fa-chevron-down small text-muted ms-1" aria-hidden="true"></i>
-                            <span class="visually-hidden">Open profile menu</span>
+                    <!-- Improved Global Search Bar -->
+                    <form action="<?= BASE_URL ?>/search" method="GET" class="d-none d-md-flex align-items-center ms-3 position-relative" style="max-width: 360px; width: 100%;">
+                        <input type="text" name="q" class="form-control rounded-pill ps-4 pe-5 bg-light border-0 shadow-none text-secondary" placeholder="What do you want to find?" style="font-size: 0.875rem; height: 42px;" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
+                        <button type="submit" class="btn position-absolute end-0 border-0 bg-transparent pe-3 shadow-none d-flex align-items-center justify-content-center" aria-label="Search" style="height: 100%;">
+                            <i class="fa-solid fa-magnifying-glass" style="color: #8b5cf6;"></i>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-end shadow border-0 p-2 mt-2" aria-labelledby="profileMenuButton" style="min-width: 240px">
-                            <div class="px-3 py-2 border-bottom mb-2">
-                                <div class="fw-semibold text-truncate"><?= htmlspecialchars((string) ($currentUser['username'] ?? 'User')) ?></div>
-                                <div class="small text-muted text-truncate"><?= htmlspecialchars((string) ($currentUser['email'] ?? '')) ?></div>
+                    </form>
+
+                    <!-- Right Navigation Elements -->
+                    <div class="ms-auto d-flex align-items-center gap-2 gap-sm-3">
+                        <!-- Notification Bell Dropdown -->
+                        <div class="dropdown">
+                            <button class="btn btn-light rounded-circle position-relative d-flex align-items-center justify-content-center border-0 bg-light" style="width: 40px; height: 40px;" type="button" id="notificationMenuButton" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications">
+                                <i class="fa-regular fa-bell text-secondary fs-6"></i>
+                                <!-- Notification badge indicator -->
+                                <span class="position-absolute top-25 start-75 translate-middle p-1 bg-danger border border-light rounded-circle">
+                                    <span class="visually-hidden">New notifications</span>
+                                </span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2 p-2 rounded-4" aria-labelledby="notificationMenuButton" style="width: 300px;">
+                                <li class="px-3 py-2 fw-bold text-dark border-bottom d-flex justify-content-between align-items-center">
+                                    <span>Notifications</span>
+                                    <span class="badge bg-primary rounded-pill fs-7">New</span>
+                                </li>
+                                <li class="py-3 text-center text-muted small">No new notifications right now.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Message/Chat Icon Link -->
+                        <a href="<?= BASE_URL ?>/messages" class="btn btn-light rounded-circle position-relative d-flex align-items-center justify-content-center border-0 bg-light text-secondary" style="width: 40px; height: 40px;" aria-label="Messages">
+                            <i class="fa-regular fa-comment-dots fs-6"></i>
+                        </a>
+
+                        <!-- User Profile Dropdown Menu -->
+                        <div class="dropdown">
+                            <button class="btn btn-light d-flex align-items-center gap-2 rounded-pill px-2 px-sm-3 py-1 bg-light border-0"
+                                    type="button" id="profileMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="avatar avatar-sm avatar-tone-<?= htmlspecialchars($roleTone) ?>" aria-hidden="true"><?= htmlspecialchars($smsInitials) ?></span>
+                                <span class="text-start d-none d-sm-block">
+                                    <span class="user-name d-block lh-1 fw-semibold text-dark" style="font-size: 0.875rem;"><?= htmlspecialchars((string) ($currentUser['username'] ?? 'User')) ?></span>
+                                    <span class="small text-muted" style="font-size: 0.75rem;"><?= htmlspecialchars($roleLabel) ?></span>
+                                </span>
+                                <i class="fa-solid fa-chevron-down small text-muted ms-1" aria-hidden="true"></i>
+                                <span class="visually-hidden">Open profile menu</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end shadow-sm border-0 p-2 mt-2 rounded-4" aria-labelledby="profileMenuButton" style="min-width: 250px">
+                                <div class="px-3 py-2 border-bottom mb-2">
+                                    <div class="fw-semibold text-truncate text-dark"><?= htmlspecialchars((string) ($currentUser['username'] ?? 'User')) ?></div>
+                                    <div class="small text-muted text-truncate"><?= htmlspecialchars((string) ($currentUser['email'] ?? '')) ?></div>
+                                </div>
+                                <a class="dropdown-item rounded-2 py-2 d-flex align-items-center text-secondary" href="<?= BASE_URL ?>/profile">
+                                    <i class="fa-regular fa-user me-2 text-muted"></i> My profile
+                                </a>
+                                <div class="dropdown-divider my-1"></div>
+                                <a class="dropdown-item rounded-2 py-2 d-flex align-items-center text-danger" href="<?= BASE_URL ?>/logout">
+                                    <i class="fa-solid fa-right-from-bracket me-2"></i> Log out
+                                </a>
                             </div>
-                            <a class="dropdown-item rounded py-2" href="<?= BASE_URL ?>/profile">
-                                <i class="fa-regular fa-user me-2 text-muted"></i> My profile
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item rounded py-2 text-danger" href="<?= BASE_URL ?>/logout">
-                                <i class="fa-solid fa-right-from-bracket me-2"></i> Log out
-                            </a>
                         </div>
                     </div>
                 </div>
